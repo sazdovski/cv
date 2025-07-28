@@ -1,0 +1,38 @@
+/* Skills Section */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.skill-group {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skill-group:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.15);
+}
+
+.skill-slider {
+    width: 240px;
+    height: 8px;
+    background: transparent;
+    border-radius: 0;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    gap: 2px;
+}
+
+@media (max-width: 480px) {
+    .skill-slider {
+        width: 100%;
+    }
+} 
