@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Theme Management
 function initializeTheme() {
-    // Check for saved theme preference or default to 'light'
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    // Check for saved theme preference or default to 'dark'
+    const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
 }
 
@@ -21,85 +21,7 @@ function toggleTheme() {
     localStorage.setItem('theme', newTheme);
 }
 
-// PDF Download Function
-async function downloadPDF() {
-    // Show loading state
-    const downloadBtn = document.querySelector('.download-btn');
-    const originalText = downloadBtn.innerHTML;
-    downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
-    downloadBtn.disabled = true;
 
-    try {
-        // Clone the container to avoid modifying the original
-        const element = document.querySelector('.container').cloneNode(true);
-        
-        // Remove theme switcher from PDF
-        const themeSwitcher = element.querySelector('.theme-switcher');
-        if (themeSwitcher) themeSwitcher.remove();
-        
-        // Remove download section from PDF
-        const downloadSection = element.querySelector('.download-section');
-        if (downloadSection) downloadSection.remove();
-        
-        // Create a temporary container for PDF generation
-        const tempContainer = document.createElement('div');
-        tempContainer.style.position = 'absolute';
-        tempContainer.style.left = '-9999px';
-        tempContainer.style.width = '210mm'; // A4 width
-        tempContainer.style.background = 'white';
-        tempContainer.style.color = '#333';
-        tempContainer.appendChild(element);
-        document.body.appendChild(tempContainer);
-        
-        // Configure pdf options with better settings
-        const opt = {
-            margin: [10, 10, 10, 10],
-            filename: 'David_Sazdovski_CV.pdf',
-            image: { 
-                type: 'jpeg', 
-                quality: 1.0 
-            },
-            html2canvas: { 
-                scale: 2,
-                useCORS: true,
-                letterRendering: true,
-                allowTaint: true,
-                backgroundColor: '#ffffff',
-                logging: false,
-                width: 794, // A4 width in pixels at 96 DPI
-                height: 1123 // A4 height in pixels at 96 DPI
-            },
-            jsPDF: { 
-                unit: 'mm', 
-                format: 'a4', 
-                orientation: 'portrait',
-                compress: true
-            },
-            pagebreak: { 
-                mode: ['avoid-all', 'css', 'legacy'] 
-            }
-        };
-
-        // Check if html2pdf is available
-        if (typeof html2pdf !== 'undefined') {
-            await html2pdf().set(opt).from(tempContainer).save();
-        } else {
-            // Fallback: open print dialog
-            window.print();
-        }
-        
-        // Clean up
-        document.body.removeChild(tempContainer);
-        
-    } catch (error) {
-        console.error('PDF generation failed:', error);
-        alert('PDF generation failed. Please try using the print function (Ctrl+P).');
-    } finally {
-        // Restore button state
-        downloadBtn.innerHTML = originalText;
-        downloadBtn.disabled = false;
-    }
-}
 
 // Skill Sliders Animation with Intersection Observer
 function initializeSkillSliders() {
